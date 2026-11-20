@@ -1,0 +1,1 @@
+import{t as e}from"./jsx-runtime-A2ihPmpW.js";import{BlogPage as t}from"./blog-D8dpNhDu.js";import{t as n}from"./shell-B3KKm1qU.js";var r=e(),i=()=>(0,r.jsx)(n,{children:(0,r.jsx)(t,{})});export{i as component};

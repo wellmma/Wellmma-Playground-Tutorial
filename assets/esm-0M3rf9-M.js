@@ -1,0 +1,1 @@
+import{registerPlugin as e}from"./dist-NGLb1Cm5.js";var t=e(`EdgeToEdge`,{});export{t as EdgeToEdge};

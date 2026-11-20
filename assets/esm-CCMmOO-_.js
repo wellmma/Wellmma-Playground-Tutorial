@@ -1,0 +1,2 @@
+const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["./web-CFF4NkQr.js","./dist-NGLb1Cm5.js"])))=>i.map(i=>d[i]);
+import{Gt as e}from"./index-DBzwoQjb.js";import{registerPlugin as t}from"./dist-NGLb1Cm5.js";var n=t(`Share`,{web:()=>e(()=>import(`./web-CFF4NkQr.js`).then(e=>new e.ShareWeb),__vite__mapDeps([0,1]),import.meta.url)});export{n as Share};
