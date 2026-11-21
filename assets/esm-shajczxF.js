@@ -1,0 +1,2 @@
+const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["assets/web-C5CpdAfy.js","assets/dist-NGLb1Cm5.js"])))=>i.map(i=>d[i]);
+import{Jt as e}from"./index-DQWOGifl.js";import{registerPlugin as t}from"./dist-NGLb1Cm5.js";var n=t(`App`,{web:()=>e(()=>import(`./web-C5CpdAfy.js`).then(e=>new e.AppWeb),__vite__mapDeps([0,1]))});export{n as App};

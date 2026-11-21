@@ -1,0 +1,1 @@
+import{n as e}from"./react-dom-vkHvqI-R.js";import{t}from"./shell-XmYAxzmZ.js";import{t as n}from"./course-page-4OkGcAMd.js";var r=e(),i=()=>(0,r.jsx)(t,{children:(0,r.jsx)(n,{section:`wellmma`,title:`Wellmma`,subtitle:`Courses and playlists about Wellmma.`})});export{i as component};

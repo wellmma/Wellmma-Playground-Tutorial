@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Wellmma Playground — Demo</title>
+    <meta name="description" content="Try the Wellmma Playground app in your browser, shown on a phone screen." />
+    <link rel="icon" href="/favicon.png" type="image/png" />
+    <style>
+      html, body { margin: 0; height: 100%; background: #04070b; overflow: hidden; }
+      body { display: flex; justify-content: center; }
+      /* Phone screen: 393 px wide (a typical Android phone), full height, with side bezels. */
+      .phone {
+        width: 393px;
+        height: calc(100dvh - 16px);
+        margin: 8px 0;
+        border-left: 10px solid #1d242d;
+        border-right: 10px solid #1d242d;
+        border-radius: 22px;
+        overflow: hidden;
+        box-shadow: 0 0 0 1px #2c3540, 0 0 60px rgba(0, 0, 0, 0.6);
+        background: #000;
+      }
+      iframe { display: block; width: 100%; height: 100%; border: 0; }
+      .toggle {
+        position: fixed; top: 14px; right: 14px; z-index: 10;
+        display: flex; align-items: center; gap: 8px;
+        height: 40px; padding: 0 14px;
+        border: 1px solid #2c3540; border-radius: 999px;
+        background: #121922; color: #e6edf3;
+        font: 600 13px/1 Poppins, system-ui, sans-serif; cursor: pointer;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.45);
+      }
+      .toggle:hover { background: #1b2430; }
+      .toggle:focus-visible { outline: 2px solid #43f08f; outline-offset: 2px; }
+      .toggle svg { width: 16px; height: 16px; }
+      .toggle .collapse, body.full .toggle .expand { display: none; }
+      body.full .toggle .collapse { display: inline; }
+    </style>
+  </head>
+  <body>
+    <button type="button" class="toggle" id="toggle" aria-pressed="false" title="Full screen">
+      <svg class="expand" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
+      <svg class="collapse" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 14h6v6M20 10h-6V4M14 10l7-7M3 21l7-7"/></svg>
+      <span id="toggle-label">Full screen</span>
+    </button>
+    <div class="phone">
+      <iframe
+        id="app"
+        name="wellmma-phone"
+        title="Wellmma Playground"
+        allow="fullscreen; autoplay; encrypted-media; picture-in-picture; clipboard-read; clipboard-write; web-share; camera; microphone"
+        allowfullscreen
+      ></iframe>
+    </div>
+    <script>
+      (function () {
+        var frame = document.getElementById("app");
+        var start = "/";
+        try { start = decodeURIComponent(location.hash.slice(1)) || "/"; } catch (e) {}
+        // Only paths inside this app.
+        if (start.charAt(0) !== "/" || start.charAt(1) === "/" || start.indexOf("/phone.html") === 0) start = "/";
+        // On a phone-sized screen there is nothing to frame.
+        if (window.innerWidth < 600) { location.replace(start); return; }
+        frame.src = start;
+        // Browser full screen (like F11), switched from outside the phone.
+        var toggle = document.getElementById("toggle");
+        var label = document.getElementById("toggle-label");
+        var root = document.documentElement;
+        function isFull() { return !!(document.fullscreenElement || document.webkitFullscreenElement); }
+        function sync() {
+          var full = isFull();
+          document.body.classList.toggle("full", full);
+          toggle.setAttribute("aria-pressed", full ? "true" : "false");
+          toggle.title = full ? "Exit full screen" : "Full screen";
+          label.textContent = full ? "Exit full screen" : "Full screen";
+        }
+        toggle.addEventListener("click", function () {
+          try {
+            if (isFull()) {
+              (document.exitFullscreen || document.webkitExitFullscreen).call(document);
+            } else {
+              var go = root.requestFullscreen || root.webkitRequestFullscreen;
+              var result = go && go.call(root);
+              if (result && result.catch) result.catch(function () { alert("This browser blocked full screen here. Press F11 (or open the demo in its own tab) to go full screen."); });
+            }
+          } catch (e) {}
+        });
+        document.addEventListener("fullscreenchange", sync);
+        document.addEventListener("webkitfullscreenchange", sync);
+        if (!(root.requestFullscreen || root.webkitRequestFullscreen)) toggle.style.display = "none";
+        // Keep the address bar and tab title in step with the screen inside the phone.
+        setInterval(function () {
+          try {
+            var l = frame.contentWindow.location;
+            if (l.href === "about:blank") return;
+            var hash = "#" + encodeURIComponent(l.pathname + l.search + l.hash);
+            if (location.hash !== hash) history.replaceState(null, "", hash);
+            var title = frame.contentDocument && frame.contentDocument.title;
+            if (title && document.title !== title) document.title = title;
+          } catch (e) {}
+        }, 500);
+      })();
+    </script>
+  </body>
+</html>

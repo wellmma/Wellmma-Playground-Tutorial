@@ -1,0 +1,1 @@
+import{n as e}from"./react-dom-vkHvqI-R.js";import{BlogPage as t}from"./blog-s7cZIuBY.js";import{t as n}from"./shell-XmYAxzmZ.js";var r=e(),i=()=>(0,r.jsx)(n,{children:(0,r.jsx)(t,{})});export{i as component};
